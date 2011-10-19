@@ -679,7 +679,7 @@
       }
     };
     Chosen.prototype.winnow_results = function() {
-      var found, option, part, parts, regex, result_id, results, searchText, startTime, startpos, text, zregex, _i, _j, _len, _len2, _ref;
+      var el, found, option, part, parts, regex, result_id, results, searchText, startTime, startpos, text, zregex, _i, _j, _len, _len2, _ref;
       startTime = new Date();
       this.no_results_clear();
       results = 0;
@@ -691,7 +691,7 @@
         option = _ref[_i];
         if (!option.disabled && !option.empty) {
           if (option.group) {
-            $('#' + option.dom_id).hide();
+            document.getElementById(option.dom_id).style.display = "none";
           } else if (!(this.is_multiple && option.selected)) {
             found = false;
             result_id = option.dom_id;
@@ -723,13 +723,14 @@
               }
               this.result_activate($("#" + result_id));
               if (option.group_array_index != null) {
-                $("#" + this.results_data[option.group_array_index].dom_id).show();
+                document.getElementById(this.results_data[option.group_array_index].dom_id).style.display = "list-item";
               }
             } else {
               if (this.result_highlight && result_id === this.result_highlight.attr('id')) {
                 this.result_clear_highlight();
               }
-              this.result_deactivate($("#" + result_id));
+              el = document.getElementById(result_id);
+              el.className = el.className.replace("active-result", "");
             }
           }
         }
