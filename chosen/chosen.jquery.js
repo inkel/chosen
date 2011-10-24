@@ -389,7 +389,6 @@
               this.search_field.val("");
             }
             $(document).click(this.click_test_action);
-            this.results_show();
           } else if (!this.is_multiple && evt && ($(evt.target) === this.selected_item || $(evt.target).parents("a.chzn-single").length)) {
             evt.preventDefault();
             this.results_toggle();
@@ -581,7 +580,9 @@
     Chosen.prototype.choices_click = function(evt) {
       evt.preventDefault();
       if (this.active_field && !($(evt.target).hasClass("search-choice" || $(evt.target).parents('.search-choice').first)) && !this.results_showing) {
-        return this.results_show();
+        this.search_field.focus();
+        this.search_field.val(this.search_field.val());
+        return this.winnow_results();
       }
     };
     Chosen.prototype.choice_build = function(item) {

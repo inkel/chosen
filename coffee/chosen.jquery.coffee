@@ -113,7 +113,7 @@ class Chosen extends AbstractChosen
         if not @active_field
           @search_field.val "" if @is_multiple
           $(document).click @click_test_action
-          this.results_show()
+          # this.results_show()
         else if not @is_multiple and evt and ($(evt.target) is @selected_item || $(evt.target).parents("a.chzn-single").length)
           evt.preventDefault()
           this.results_toggle()
@@ -282,7 +282,10 @@ class Chosen extends AbstractChosen
   choices_click: (evt) ->
     evt.preventDefault()
     if( @active_field and not($(evt.target).hasClass "search-choice" or $(evt.target).parents('.search-choice').first) and not @results_showing )
-      this.results_show()
+      # this.results_show()
+      this.search_field.focus()
+      this.search_field.val this.search_field.val()
+      this.winnow_results()
 
   choice_build: (item) ->
     choice_id = @container_id + "_c_" + item.array_index

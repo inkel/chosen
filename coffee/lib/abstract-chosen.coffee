@@ -8,7 +8,7 @@ class AbstractChosen
 
   constructor: (@form_field, @options={}) ->
     this.set_default_values()
-    
+
     @is_multiple = @form_field.multiple
     @default_text_default = if @is_multiple then "Select Some Options" else "Select an Option"
 
@@ -37,7 +37,7 @@ class AbstractChosen
 
   input_focus: (evt) ->
     setTimeout (=> this.container_mousedown()), 50 unless @active_field
-  
+
   input_blur: (evt) ->
     if not @mouse_on_container
       @active_field = false
@@ -99,7 +99,7 @@ class AbstractChosen
     new_id = this.generate_random_id()
     @form_field.id = new_id
     new_id
-  
+
   generate_random_char: ->
     chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ"
     rand = Math.floor(Math.random() * chars.length)
