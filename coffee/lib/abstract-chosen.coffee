@@ -6,7 +6,7 @@ root = this
 
 class AbstractChosen
 
-  constructor: (@form_field, @options={}) ->
+  constructor: (@form_field, @options={ dropdown_on_focus: true }) ->
     this.set_default_values()
 
     @is_multiple = @form_field.multiple
