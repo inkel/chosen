@@ -92,7 +92,9 @@
   AbstractChosen = (function() {
     function AbstractChosen(form_field, options) {
       this.form_field = form_field;
-      this.options = options != null ? options : {};
+      this.options = options != null ? options : {
+        dropdown_on_focus: true
+      };
       this.set_default_values();
       this.is_multiple = this.form_field.multiple;
       this.default_text_default = this.is_multiple ? "Select Some Options" : "Select an Option";
@@ -389,6 +391,9 @@
               this.search_field.val("");
             }
             $(document).click(this.click_test_action);
+            if (this.options.dropdown_on_focus) {
+              this.results_show();
+            }
           } else if (!this.is_multiple && evt && ($(evt.target) === this.selected_item || $(evt.target).parents("a.chzn-single").length)) {
             evt.preventDefault();
             this.results_toggle();
@@ -580,9 +585,13 @@
     Chosen.prototype.choices_click = function(evt) {
       evt.preventDefault();
       if (this.active_field && !($(evt.target).hasClass("search-choice" || $(evt.target).parents('.search-choice').first)) && !this.results_showing) {
-        this.search_field.focus();
-        this.search_field.val(this.search_field.val());
-        return this.winnow_results();
+        if (this.options.dropdown_on_focus) {
+          return this.results_show();
+        } else {
+          this.search_field.focus();
+          this.search_field.val(this.search_field.val());
+          return this.winnow_results();
+        }
       }
     };
     Chosen.prototype.choice_build = function(item) {
