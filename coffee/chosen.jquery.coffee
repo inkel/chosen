@@ -225,6 +225,8 @@ class Chosen extends AbstractChosen
     @result_highlight = null
 
   results_show: ->
+    return if @is_multiple and @choices == 0 and @search_field.val().length < 1
+
     if not @is_multiple
       @selected_item.addClass "chzn-single-with-drop"
       if @result_single_selected

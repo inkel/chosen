@@ -539,6 +539,9 @@
 
     Chosen.prototype.results_show = function() {
       var dd_top;
+      if (this.is_multiple && this.choices === 0 && this.search_field.val().length < 1) {
+        return;
+      }
       if (!this.is_multiple) {
         this.selected_item.addClass("chzn-single-with-drop");
         if (this.result_single_selected) {
