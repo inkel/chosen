@@ -225,6 +225,8 @@ class Chosen extends AbstractChosen
     @result_highlight = null
 
   results_show: ->
+    return if @is_multiple and @choices == 0 and @search_field.val().length < 1
+
     if not @is_multiple
       @selected_item.addClass "chzn-single-with-drop"
       if @result_single_selected
@@ -292,7 +294,7 @@ class Chosen extends AbstractChosen
   choice_build: (item) ->
     choice_id = @container_id + "_c_" + item.array_index
     @choices += 1
-    @search_container.before  '<li class="search-choice" id="' + choice_id + '"><span>' + item.html + '</span><a href="javascript:void(0)" class="search-choice-close" rel="' + item.array_index + '"></a></li>'
+    @search_container.before  '<li class="search-choice ' + item.classes + '" id="' + choice_id + '"><span>' + item.html + '</span><a href="javascript:void(0)" class="search-choice-close" rel="' + item.array_index + '"></a></li>'
     link = $('#' + choice_id).find("a").first()
     link.click (evt) => this.choice_destroy_link_click(evt)
 
