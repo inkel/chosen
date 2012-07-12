@@ -436,6 +436,9 @@ class Chosen extends AbstractChosen
     else
       this.winnow_results_set_highlight()
 
+    if $.trim(@search_field.val()) == ""
+      this.results_hide()
+
   winnow_results_clear: ->
     @search_field.val ""
     lis = @search_results.find("li")
