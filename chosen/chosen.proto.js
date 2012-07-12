@@ -47,7 +47,9 @@
     SelectParser.prototype.add_option = function(option, group_position, group_disabled) {
       if (option.nodeName === "OPTION") {
         if (option.text !== "") {
-          if (group_position != null) this.parsed[group_position].children += 1;
+          if (group_position != null) {
+            this.parsed[group_position].children += 1;
+          }
           this.parsed.push({
             array_index: this.parsed.length,
             options_index: this.options_index,
@@ -89,13 +91,14 @@
   this.SelectParser = SelectParser;
 
 }).call(this);
+
+/*
+Chosen source: generate output using 'cake build'
+Copyright (c) 2011 by Harvest
+*/
+
+
 (function() {
-
-  /*
-  Chosen source: generate output using 'cake build'
-  Copyright (c) 2011 by Harvest
-  */
-
   var AbstractChosen, root;
 
   root = this;
@@ -167,9 +170,15 @@
       if (!option.disabled) {
         option.dom_id = this.container_id + "_o_" + option.array_index;
         classes = option.selected && this.is_multiple ? [] : ["active-result"];
-        if (option.selected) classes.push("result-selected");
-        if (option.group_array_index != null) classes.push("group-option");
-        if (option.classes !== "") classes.push(option.classes);
+        if (option.selected) {
+          classes.push("result-selected");
+        }
+        if (option.group_array_index != null) {
+          classes.push("group-option");
+        }
+        if (option.classes !== "") {
+          classes.push(option.classes);
+        }
         style = option.style.cssText !== "" ? " style=\"" + option.style + "\"" : "";
         return '<li id="' + option.dom_id + '" class="' + classes.join(' ') + '"' + style + '>' + option.html + '</li>';
       } else {
@@ -214,10 +223,14 @@
           break;
         case 13:
           evt.preventDefault();
-          if (this.results_showing) return this.result_select(evt);
+          if (this.results_showing) {
+            return this.result_select(evt);
+          }
           break;
         case 27:
-          if (this.results_showing) return this.results_hide();
+          if (this.results_showing) {
+            return this.results_hide();
+          }
           break;
         case 9:
         case 38:
@@ -252,24 +265,26 @@
   root.AbstractChosen = AbstractChosen;
 
 }).call(this);
+
+/*
+Chosen source: generate output using 'cake build'
+Copyright (c) 2011 by Harvest
+*/
+
+
 (function() {
-
-  /*
-  Chosen source: generate output using 'cake build'
-  Copyright (c) 2011 by Harvest
-  */
-
-  var Chosen, get_side_border_padding, root;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var Chosen, get_side_border_padding, root,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   root = this;
 
-  Chosen = (function() {
+  Chosen = (function(_super) {
 
-    __extends(Chosen, AbstractChosen);
+    __extends(Chosen, _super);
 
     function Chosen() {
-      Chosen.__super__.constructor.apply(this, arguments);
+      return Chosen.__super__.constructor.apply(this, arguments);
     }
 
     Chosen.prototype.setup = function() {
@@ -404,10 +419,14 @@
       var target_closelink;
       if (!this.is_disabled) {
         target_closelink = evt != null ? evt.target.hasClassName("search-choice-close") : false;
-        if (evt && evt.type === "mousedown") evt.stop();
+        if (evt && evt.type === "mousedown") {
+          evt.stop();
+        }
         if (!this.pending_destroy_click && !target_closelink) {
           if (!this.active_field) {
-            if (this.is_multiple) this.search_field.clear();
+            if (this.is_multiple) {
+              this.search_field.clear();
+            }
             document.observe("click", this.click_test_action);
             this.results_show();
           } else if (!this.is_multiple && evt && (evt.target === this.selected_item || evt.target.up("a.chzn-single"))) {
@@ -421,7 +440,9 @@
     };
 
     Chosen.prototype.container_mouseup = function(evt) {
-      if (evt.target.nodeName === "ABBR") return this.results_reset(evt);
+      if (evt.target.nodeName === "ABBR") {
+        return this.results_reset(evt);
+      }
     };
 
     Chosen.prototype.blur_test = function(evt) {
@@ -487,7 +508,9 @@
             this.choice_build(data);
           } else if (data.selected && !this.is_multiple) {
             this.selected_item.down("span").update(data.html);
-            if (this.allow_single_deselect) this.single_deselect_control_build();
+            if (this.allow_single_deselect) {
+              this.single_deselect_control_build();
+            }
           }
         }
       }
@@ -597,7 +620,9 @@
     Chosen.prototype.search_results_mouseover = function(evt) {
       var target;
       target = evt.target.hasClassName("active-result") ? evt.target : evt.target.up(".active-result");
-      if (target) return this.result_do_highlight(target);
+      if (target) {
+        return this.result_do_highlight(target);
+      }
     };
 
     Chosen.prototype.search_results_mouseout = function(evt) {
@@ -614,8 +639,8 @@
     };
 
     Chosen.prototype.choice_build = function(item) {
-      var choice_id, link;
-      var _this = this;
+      var choice_id, link,
+        _this = this;
       choice_id = this.container_id + "_c_" + item.array_index;
       this.choices += 1;
       this.search_container.insert({
@@ -654,8 +679,12 @@
       this.selected_item.down("span").update(this.default_text);
       this.show_search_field_default();
       evt.target.remove();
-      if (typeof Event.simulate === 'function') this.form_field.simulate("change");
-      if (this.active_field) return this.results_hide();
+      if (typeof Event.simulate === 'function') {
+        this.form_field.simulate("change");
+      }
+      if (this.active_field) {
+        return this.results_hide();
+      }
     };
 
     Chosen.prototype.result_select = function(evt) {
@@ -678,9 +707,13 @@
           this.choice_build(item);
         } else {
           this.selected_item.down("span").update(item.html);
-          if (this.allow_single_deselect) this.single_deselect_control_build();
+          if (this.allow_single_deselect) {
+            this.single_deselect_control_build();
+          }
         }
-        if (!(evt.metaKey && this.is_multiple)) this.results_hide();
+        if (!(evt.metaKey && this.is_multiple)) {
+          this.results_hide();
+        }
         this.search_field.value = "";
         if (typeof Event.simulate === 'function') {
           this.form_field.simulate("change");
@@ -706,7 +739,9 @@
       result.removeClassName("result-selected").addClassName("active-result").show();
       this.result_clear_highlight();
       this.winnow_results();
-      if (typeof Event.simulate === 'function') this.form_field.simulate("change");
+      if (typeof Event.simulate === 'function') {
+        this.form_field.simulate("change");
+      }
       return this.search_field_scale();
     };
 
@@ -719,7 +754,7 @@
     };
 
     Chosen.prototype.winnow_results = function() {
-      var found, option, part, parts, regex, result_id, results, searchText, startTime, startpos, text, zregex, _i, _j, _len, _len2, _ref;
+      var found, option, part, parts, regex, result_id, results, searchText, startTime, startpos, text, zregex, _i, _j, _len, _len1, _ref;
       startTime = new Date();
       this.no_results_clear();
       results = 0;
@@ -741,7 +776,7 @@
             } else if (option.html.indexOf(" ") >= 0 || option.html.indexOf("[") === 0) {
               parts = option.html.replace(/\[|\]/g, "").split(" ");
               if (parts.length) {
-                for (_j = 0, _len2 = parts.length; _j < _len2; _j++) {
+                for (_j = 0, _len1 = parts.length; _j < _len1; _j++) {
                   part = parts[_j];
                   if (regex.test(part)) {
                     found = true;
@@ -758,7 +793,9 @@
               } else {
                 text = option.html;
               }
-              if ($(result_id).innerHTML !== text) $(result_id).update(text);
+              if ($(result_id).innerHTML !== text) {
+                $(result_id).update(text);
+              }
               this.result_activate($(result_id));
               if (option.group_array_index != null) {
                 $(this.results_data[option.group_array_index].dom_id).show();
@@ -806,7 +843,9 @@
         if (!(do_high != null)) {
           do_high = this.search_results.down(".active-result");
         }
-        if (do_high != null) return this.result_do_highlight(do_high);
+        if (do_high != null) {
+          return this.result_do_highlight(do_high);
+        }
       }
     };
 
@@ -835,9 +874,13 @@
         } else if (this.results_showing) {
           sibs = this.result_highlight.nextSiblings();
           nexts = sibs.intersect(actives);
-          if (nexts.length) this.result_do_highlight(nexts.first());
+          if (nexts.length) {
+            this.result_do_highlight(nexts.first());
+          }
         }
-        if (!this.results_showing) return this.results_show();
+        if (!this.results_showing) {
+          return this.results_show();
+        }
       }
     };
 
@@ -852,7 +895,9 @@
         if (prevs.length) {
           return this.result_do_highlight(prevs.first());
         } else {
-          if (this.choices > 0) this.results_hide();
+          if (this.choices > 0) {
+            this.results_hide();
+          }
           return this.result_clear_highlight();
         }
       }
@@ -879,7 +924,9 @@
       var stroke, _ref;
       stroke = (_ref = evt.which) != null ? _ref : evt.keyCode;
       this.search_field_scale();
-      if (stroke !== 8 && this.pending_backstroke) this.clear_backstroke();
+      if (stroke !== 8 && this.pending_backstroke) {
+        this.clear_backstroke();
+      }
       switch (stroke) {
         case 8:
           return this.backstroke_length = this.search_field.value.length;
@@ -912,7 +959,9 @@
         document.body.appendChild(div);
         w = Element.measure(div, 'width') + 25;
         div.remove();
-        if (w > this.f_width - 10) w = this.f_width - 10;
+        if (w > this.f_width - 10) {
+          w = this.f_width - 10;
+        }
         this.search_field.setStyle({
           'width': w + 'px'
         });
@@ -925,7 +974,7 @@
 
     return Chosen;
 
-  })();
+  })(AbstractChosen);
 
   root.Chosen = Chosen;
 
