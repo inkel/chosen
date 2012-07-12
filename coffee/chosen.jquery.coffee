@@ -168,7 +168,12 @@ class Chosen extends AbstractChosen
     @parsing = true
     @results_data = root.SelectParser.select_to_array @form_field
 
+    positions = []
+    chosen = []
+
     if @is_multiple and @choices > 0
+      @search_choices.find("li.search-choice a").each (i, a) ->
+        positions[positions.length] = parseInt(a.rel, 10)
       @search_choices.find("li.search-choice").remove()
       @choices = 0
     else if not @is_multiple
@@ -181,10 +186,20 @@ class Chosen extends AbstractChosen
       else if !data.empty
         content += this.result_add_option data
         if data.selected and @is_multiple
-          this.choice_build data
+          chosen[chosen.length] = data
         else if data.selected and not @is_multiple
           @selected_item.find("span").text data.text
           this.single_deselect_control_build() if @allow_single_deselect
+
+    if @is_multiple
+      chosen.sort (a, b) ->
+        pa = positions.indexOf(a.array_index)
+        pb = positions.indexOf(b.array_index)
+        return 1 if pa < 0 and pb > -1
+        return -1 if pa > -1 and pb < 0
+        pa - pb
+
+      this.choice_build data for data in chosen
 
     this.search_field_disabled()
     this.show_search_field_default()
