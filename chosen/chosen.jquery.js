@@ -496,11 +496,16 @@ Copyright (c) 2011 by Harvest
     };
 
     Chosen.prototype.results_build = function() {
-      var content, data, startTime, _i, _len, _ref;
+      var chosen, content, data, positions, startTime, _i, _j, _len, _len1, _ref;
       startTime = new Date();
       this.parsing = true;
       this.results_data = root.SelectParser.select_to_array(this.form_field);
+      positions = [];
+      chosen = [];
       if (this.is_multiple && this.choices > 0) {
+        this.search_choices.find("li.search-choice a").each(function(i, a) {
+          return positions[positions.length] = parseInt(a.rel, 10);
+        });
         this.search_choices.find("li.search-choice").remove();
         this.choices = 0;
       } else if (!this.is_multiple) {
@@ -515,13 +520,31 @@ Copyright (c) 2011 by Harvest
         } else if (!data.empty) {
           content += this.result_add_option(data);
           if (data.selected && this.is_multiple) {
-            this.choice_build(data);
+            chosen[chosen.length] = data;
           } else if (data.selected && !this.is_multiple) {
             this.selected_item.find("span").text(data.text);
             if (this.allow_single_deselect) {
               this.single_deselect_control_build();
             }
           }
+        }
+      }
+      if (this.is_multiple) {
+        chosen.sort(function(a, b) {
+          var pa, pb;
+          pa = positions.indexOf(a.array_index);
+          pb = positions.indexOf(b.array_index);
+          if (pa < 0 && pb > -1) {
+            return 1;
+          }
+          if (pa > -1 && pb < 0) {
+            return -1;
+          }
+          return pa - pb;
+        });
+        for (_j = 0, _len1 = chosen.length; _j < _len1; _j++) {
+          data = chosen[_j];
+          this.choice_build(data);
         }
       }
       this.search_field_disabled();
