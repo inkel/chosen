@@ -434,6 +434,10 @@ class Chosen extends AbstractChosen
             else
               text = option.html
 
+            # highlight exact matches
+            exact_match = searchText.toLowerCase() == option.html.toLowerCase()
+            $("#" + result_id).toggleClass("exact-match", exact_match)
+
             $("#" + result_id).html text if $("#" + result_id).html != text
 
             this.result_activate $("#" + result_id)
@@ -469,10 +473,8 @@ class Chosen extends AbstractChosen
     if not @result_highlight
 
       selected_results = if not @is_multiple then @search_results.find(".result-selected.active-result") else []
-      do_high = if selected_results.length then selected_results.first() else @search_results.find(".active-result").first()
-
-      # uncomment this if you want the first result to be highlighted
-      # this.result_do_highlight do_high if do_high?
+      do_high = if selected_results.length then selected_results.first() else @search_results.find(".active-result.exact-match").first()
+      this.result_do_highlight do_high if do_high?
 
   no_results: (terms) ->
     no_results_html = $('<li class="no-results">' + @results_none_found + ' "<span></span>"</li>')
