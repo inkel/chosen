@@ -747,7 +747,7 @@ Copyright (c) 2011 by Harvest
     };
 
     Chosen.prototype.winnow_results = function() {
-      var el, found, option, part, parts, regex, result_id, results, searchText, startTime, startpos, text, zregex, _i, _j, _len, _len2, _ref;
+      var el, exact_match, found, option, part, parts, regex, result_id, results, searchText, startTime, startpos, text, zregex, _i, _j, _len, _len2, _ref;
       startTime = new Date();
       this.no_results_clear();
       results = 0;
@@ -786,6 +786,8 @@ Copyright (c) 2011 by Harvest
               } else {
                 text = option.html;
               }
+              exact_match = searchText.toLowerCase() === option.html.toLowerCase();
+              $("#" + result_id).toggleClass("exact-match", exact_match);
               if ($("#" + result_id).html !== text) $("#" + result_id).html(text);
               this.result_activate($("#" + result_id));
               if (option.group_array_index != null) {
@@ -834,7 +836,8 @@ Copyright (c) 2011 by Harvest
       var do_high, selected_results;
       if (!this.result_highlight) {
         selected_results = !this.is_multiple ? this.search_results.find(".result-selected.active-result") : [];
-        return do_high = selected_results.length ? selected_results.first() : this.search_results.find(".active-result").first();
+        do_high = selected_results.length ? selected_results.first() : this.search_results.find(".active-result.exact-match").first();
+        if (do_high != null) return this.result_do_highlight(do_high);
       }
     };
 
