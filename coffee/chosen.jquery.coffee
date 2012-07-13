@@ -451,7 +451,7 @@ class Chosen extends AbstractChosen
     else
       this.winnow_results_set_highlight()
 
-    if $.trim(@search_field.val()) == ""
+    if $.trim(@search_field.val()) == "" and @is_multiple
       this.results_hide()
 
   winnow_results_clear: ->
